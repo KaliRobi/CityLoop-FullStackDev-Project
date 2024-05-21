@@ -3,6 +3,7 @@ from rest_framework import serializers
 from .models import ShipmentDetailsModel
 
 class ShipmentRegisterSerialiser(serializers.ModelSerializer):
+    
 
     def update(self, instance, validated_data):
         validated_data.pop('tracking_number', None)  
