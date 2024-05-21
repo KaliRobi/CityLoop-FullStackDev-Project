@@ -3,6 +3,7 @@ from django.db import models
 
 class ShipmentDetailsModel(models.Model):
 
+    
     MOT_OPTIONS = [
         ('Bike', 'Bike'),
         ('Car', 'Car'),
@@ -22,7 +23,6 @@ class ShipmentDetailsModel(models.Model):
         default='Bike',
     )
     
-
     def __str__(self):
         return str(self.tracking_number)
 
