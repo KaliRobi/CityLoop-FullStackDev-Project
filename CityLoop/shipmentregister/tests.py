@@ -171,6 +171,8 @@ class TestUserAuthentication(TestCase):
         
 
 class TestShipmentDetailsModel(TestCase):
+
+    
     def setUp(self):
         self.shipment = ShipmentDetailsModel.objects.create(
             tracking_number=123456,
