@@ -62,25 +62,15 @@ class ShipmentRegisterListing(generics.ListAPIView):
 
     
     serializer_class = ShipmentRegisterSerialiser
-
-    def get_queryset(self):
-        queryset = ShipmentDetailsModel.objects.all()
-        return queryset
+    queryset = ShipmentDetailsModel.objects.all()
         
 
 class TransportModeView(APIView):
 
-    
+
     def get(self, request):
-        MOT_OPTIONS = [
-            'Bike',
-            'Car',
-            'Drone',
-            'Starship robot',
-            'Truck',        
-            'Van'   
-        ]
-        return Response(MOT_OPTIONS)
+        choices = ShipmentDetailsModel.mode_of_transport.field.choices
+        return Response([choise[0] for choise in choices] )
     
 
 
