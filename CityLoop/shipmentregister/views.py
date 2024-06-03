@@ -27,10 +27,13 @@ class DeleteShipmentView(APIView):
 class BaseShipmentView(APIView):
 
     
-    def save_serializer(self, serializer):
+    def save_serializer(self, serializer, request):
         try:
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            if request.method == 'POST':
+                return Response(serializer.data, status=status.HTTP_201_ACCEPTED)
+            elif request.method == 'PUT':
+                return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
@@ -41,8 +44,9 @@ class CreateShipmentView(BaseShipmentView):
     def post(self, request):
         serialiser = ShipmentRegisterSerialiser(data=request.data)
         if serialiser.is_valid():
-            return self.save_serializer(serialiser)
+            return self.save_serializer(serializer =serialiser, request=request)
         else:
+            print('sssss')
             return  Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)  
         
 
@@ -53,8 +57,9 @@ class UpdateShipmentView(BaseShipmentView):
         shipment_to_update = get_object_or_404(ShipmentDetailsModel, tracking_number=tracking_number)
         serialiser = ShipmentRegisterSerialiser(shipment_to_update, data=request.data)
         if serialiser.is_valid():
-            return self.save_serializer(serialiser)
+            return self.save_serializer(serializer =serialiser, request=request)
         else:
+            print('sssss')
             return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
     
         
