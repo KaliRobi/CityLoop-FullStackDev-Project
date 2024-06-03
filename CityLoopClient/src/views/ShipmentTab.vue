@@ -18,10 +18,10 @@
     </div>
     <form @submit.prevent="createNewShipment" method="post">
     <div class="new-shipment-form" id="newShipmentForm" >
-        <input type="text" id="trackingNumber" v-model="newShipment.trackingNumber" placeholder="Tracking Number" required>
-        <input type="date" id="deliveryTime" v-model="newShipment.expectedDeliveryDate" placeholder="Expected Delivery Date" required>
+        <input type="text" id="trackingNumber" v-model="newShipment.tracking_number" placeholder="Tracking Number" required>
+        <input type="date" id="deliveryTime" v-model="newShipment.expected_delivery_date" placeholder="Expected Delivery Date" required>
         <input type="text" id="destination" v-model="newShipment.destination" placeholder="Destination" required >
-        <select v-model="newShipment.modeOfTransport" required>
+        <select v-model="newShipment.mode_of_transport" required>
             <option disabled value="">Select a Transportation mode</option>
             <option v-for="mode in transportModes"   >
               {{ mode}}
@@ -47,21 +47,21 @@
               </tr>
           </thead>
           <tbody>
-            <tr v-for="shipment in shipments" :key="shipment.trackingNumber" class="shipment-container">
-                <td><p>{{ shipment.trackingNumber }}</p></td>
-                <td><input type="text" v-model="shipment.expectedDeliveryDate" required ></td>
+            <tr v-for="shipment in shipments" :key="shipment.tracking_number" class="shipment-container">
+                <td><p>{{ shipment.tracking_number }}</p></td>
+                <td><input type="text" v-model="shipment.expected_delivery_date" required ></td>
                 <td><input type="text" v-model="shipment.destination" required></td>
                 <td>
-                  <select v-model="shipment.modeOfTransport" :value="shipment.modeOfTransport" required>
-                    <option v-for="mode in transportModes" :key="mode.trackingNumber"  >
+                  <select v-model="shipment.mode_of_transport" :value="shipment.mode_of_transport" required>
+                    <option v-for="mode in transportModes" :key="mode.tracking_number"  >
                       {{ mode}}
                     </option>
                   </select>
                 </td>
                 <td><input type="text" v-model="shipment.origin" required></td>
                 <td>
-                  <button @click="updateShipment(shipment.trackingNumber)">Update</button>
-                  <button @click="deleteShipment(shipment.trackingNumber)">Delete</button>
+                  <button @click="updateShipment(shipment.tracking_number)">Update</button>
+                  <button @click="deleteShipment(shipment.tracking_number)">Delete</button>
                 </td>
               </tr>
           </tbody>
@@ -95,10 +95,10 @@ const headers = {
 const domain = 'http://127.0.0.1:8000/'
 
 const newShipment = ref({
-  trackingNumber: '',
-  expectedDeliveryDate: '',
+  tracking_number: '',
+  expected_delivery_date: '',
   destination: '',
-  modeOfTransport: '',
+  mode_of_transport: '',
   origin: '',
 }) 
 
@@ -124,8 +124,8 @@ const fetchShipments = async () => {
   countShipments.value = data.count
 } 
 
-const deleteShipment = async (trackingNumber) => {
-  await fetch(`${domain}shipment/${trackingNumber}/delete/`, {
+const deleteShipment = async (tracking_number) => {
+  await fetch(`${domain}shipment/${tracking_number}/delete/`, {
     method: 'DELETE',
     headers: headers , 
   }).then(response => response.json())
@@ -134,10 +134,10 @@ fetchShipments()
 }
 
 
-const updateShipment = async (trackingNumber) => {
+const updateShipment = async (tracking_number) => {
 
-  const shipmentToUpdate = shipments.value.find(s => s.trackingNumber === trackingNumber)
-  await fetch(`${domain}shipment/${shipmentToUpdate.trackingNumber}/update/`, {
+  const shipmentToUpdate = shipments.value.find(s => s.tracking_number === tracking_number)
+  await fetch(`${domain}shipment/${shipmentToUpdate.tracking_number}/update/`, {
     method: 'PUT',  
     headers: headers, 
     body: JSON.stringify(shipmentToUpdate)
