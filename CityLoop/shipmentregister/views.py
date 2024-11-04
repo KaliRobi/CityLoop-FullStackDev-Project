@@ -46,7 +46,6 @@ class CreateShipmentView(BaseShipmentView):
         if serialiser.is_valid():
             return self.save_serializer(serializer =serialiser, request=request)
         else:
-            print('sssss')
             return  Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)  
         
 
@@ -59,7 +58,6 @@ class UpdateShipmentView(BaseShipmentView):
         if serialiser.is_valid():
             return self.save_serializer(serializer =serialiser, request=request)
         else:
-            print('sssss')
             return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
     
         
